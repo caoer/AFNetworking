@@ -148,6 +148,7 @@
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
                 if (success) {
                     success(urlRequest, operation.response, responseObject);
+                    [[[strongSelf class] sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
                 } else if (responseObject) {
                     strongSelf.image = responseObject;
                 }
@@ -157,7 +158,6 @@
                 }
             }
 
-            [[[strongSelf class] sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
